@@ -6,12 +6,12 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class DriveSubsystem {
-    final DcMotor FR;
-    final DcMotor BR;
-    final DcMotor FL;
-    final DcMotor BL;
+    DcMotor FR;
+    DcMotor BR;
+    DcMotor FL;
+    DcMotor BL;
 
-    final GoBildaPinpointDriver pinpoint;
+    GoBildaPinpointDriver pinpoint;
 
 
     private double straight;

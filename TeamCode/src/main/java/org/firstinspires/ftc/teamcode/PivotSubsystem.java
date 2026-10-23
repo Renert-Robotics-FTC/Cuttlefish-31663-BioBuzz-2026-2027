@@ -33,9 +33,9 @@ public class PivotSubsystem {
     private double kD = 0.0005;
 
 
-    private final int INTAKE_POSITION = 0;
-    private final int CORE_POSITION = 800;
-    private final int NODE_POSITION = 1900;
+    private int INTAKE_POSITION = 0;
+    private int CORE_POSITION = 800;
+    private int NODE_POSITION = 1900;
 
     private ElapsedTime timer = new ElapsedTime();
 

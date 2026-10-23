@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSettings;
 
 @TeleOp(name = "Intake Sensor Check", group = "Cuttlefish")
-public final class IntakecolorSensorSetup extends LinearOpMode {
+public class IntakecolorSensorSetup extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         NormalizedColorSensor[] sensors = new NormalizedColorSensor[4];
