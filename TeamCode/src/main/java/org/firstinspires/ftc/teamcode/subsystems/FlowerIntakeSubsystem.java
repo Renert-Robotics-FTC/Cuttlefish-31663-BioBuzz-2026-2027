@@ -8,10 +8,8 @@ public class FlowerIntakeSubsystem {
     public static String SERVO_NAME = "flowerArm";
     public static double RAISED_POSITION = Double.NaN;
     public static double LOWERED_POSITION = Double.NaN;
-
     private Servo arm;
     private boolean lowered, wasPressed;
-
     public FlowerIntakeSubsystem(HardwareMap hardwareMap) {
         if (!validPosition(RAISED_POSITION) || !validPosition(LOWERED_POSITION)
                 || RAISED_POSITION == LOWERED_POSITION) {
