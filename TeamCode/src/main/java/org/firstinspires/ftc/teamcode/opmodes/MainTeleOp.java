@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.FlowerIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSettings;
@@ -24,8 +25,8 @@ public class MainTeleOp extends LinearOpMode {
             if (flower != null) flower.start(gamepad2.a);
 
             while (opModeIsActive()) {
-                double speed = 0.4;
-                if (gamepad1.left_bumper) speed = 0.2;
+                double speed = DriveConstants.DRIVE_POWER;
+                if (gamepad1.left_bumper) speed = DriveConstants.SLOW_POWER;
                 drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                         deadband(gamepad1.right_stick_x), speed);
 
@@ -49,7 +50,8 @@ public class MainTeleOp extends LinearOpMode {
     }
     private static double deadband(double value) {
         double magnitude = Math.abs(value);
-        if (magnitude <= 0.05) return 0;
-        return Math.copySign((magnitude - 0.05) / 0.95, value);
+        if (magnitude <= DriveConstants.STICK_DEADBAND) return 0;
+        return Math.copySign((magnitude - DriveConstants.STICK_DEADBAND)
+                / (1 - DriveConstants.STICK_DEADBAND), value);
     }
 }
