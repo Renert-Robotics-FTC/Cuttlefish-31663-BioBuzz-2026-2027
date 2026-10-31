@@ -3,19 +3,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSettings;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 @TeleOp(name = "Cuttlefish Drive", group = "Cuttlefish")
 public class MainTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         DriveSubsystem drive = new DriveSubsystem(hardwareMap);
-        IntakeSubsystem intake = null;
         try {
-            if (IntakeSettings.ENABLE_IN_TELEOP) intake = new IntakeSubsystem(hardwareMap);
             waitForStart();
             if (isStopRequested()) return;
-            if (intake != null) intake.start(gamepad2.a);
 
             while (opModeIsActive()) {
                 double speed = DriveConstants.DRIVE_POWER;
@@ -23,16 +18,10 @@ public class MainTeleOp extends LinearOpMode {
                 drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                         deadband(gamepad1.right_stick_x), speed);
 
-                // Gamepad 2: A toggles intake/transfer.
-                if (intake != null) intake.update(gamepad2.a);
                 idle();
             }
         } finally {
-            try {
-                drive.stop();
-            } finally {
-                if (intake != null) intake.stop();
-            }
+            drive.stop();
         }
     }
     private static double deadband(double value) {
