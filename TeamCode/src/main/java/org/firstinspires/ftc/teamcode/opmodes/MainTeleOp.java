@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.FlowerIntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HaochenShooter;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeController;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSettings;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -18,6 +19,7 @@ public final class MainTeleOp extends LinearOpMode {
         DriveSubsystem drive = new DriveSubsystem(hardwareMap);
         IntakeSubsystem intake = null;
         FlowerIntakeSubsystem flowerIntake = null;
+        HaochenShooter shoot = new HaochenShooter(hardwareMap);
         try {
             // Disabled by default until the actual intake hardware is calibrated.
             if (IntakeSettings.ENABLE_IN_TELEOP) {
@@ -45,6 +47,28 @@ public final class MainTeleOp extends LinearOpMode {
             telemetry.update();
             // The robot stops here until START is pressed.
             waitForStart();
+            boolean ShooterVelocityCoolDown = false;
+
+            if ((gamepad2.dpad_up) && (!ShooterVelocityCoolDown)){
+                shoot.VelocityIncrease();
+                ShooterVelocityCoolDown = true;
+            }else if((gamepad2.dpad_down) && (!ShooterVelocityCoolDown)){
+                shoot.VelocityDecrease();
+                ShooterVelocityCoolDown = true;
+            }
+
+            if(!gamepad2.dpad_up && !gamepad2.dpad_down){
+                ShooterVelocityCoolDown = false;
+            }
+
+
+            if(gamepad2.b){
+                shoot.FlywheelVelocity(true);
+            }else if(gamepad2.y){
+                shoot.FlywheelVelocity(false);
+            }
+
+
             if (isStopRequested()) {
                 return;
             }
