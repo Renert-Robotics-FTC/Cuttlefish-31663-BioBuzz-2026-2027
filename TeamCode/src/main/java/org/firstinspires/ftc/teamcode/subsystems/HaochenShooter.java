@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /* Goal:
     Shooter Branch that checks whether the user has pressed the button
@@ -18,12 +19,20 @@ public class HaochenShooter {
     double offset = 0;
     public DcMotorEx shooterMotor1;
     public DcMotorEx shooterMotor2;
+    public Servo ServoBlocker;
     public HaochenShooter(HardwareMap hardwareMap){
         shooterMotor1 = hardwareMap.get(DcMotorEx.class,"sm 1");//sm1 is shooter motor 1
         shooterMotor2 = hardwareMap.get(DcMotorEx.class,"sm 2");//sm2 is shooter motor 2
+        ServoBlocker = hardwareMap.get(Servo.class,"sb");//servo blocker is sb
 
         shooterMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void Unblock(){
+        ServoBlocker.setPosition(ConstantFile.ShooterConstants.Unblocked);
+    }
+    public void Block(){
+        ServoBlocker.setPosition(ConstantFile.ShooterConstants.Blocked);
     }
     public void VelocityIncrease(){
         offset = offset + ConstantFile.ShooterConstants.Increase;
@@ -41,6 +50,8 @@ public class HaochenShooter {
             shooterMotor2.setVelocity(ConstantFile.ShooterConstants.Stop);
         }
     }
+
+
 
 
 

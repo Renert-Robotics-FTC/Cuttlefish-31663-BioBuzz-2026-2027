@@ -7,5 +7,7 @@ public class ConstantFile {
         public static final double Stop = 0.0;
         public static final double Increase = 40.0;
         public static final double Decrease = -40.0;
+        public static final double Blocked = 0.5;
+        public static final double Unblocked = -0.5;
     }
 }

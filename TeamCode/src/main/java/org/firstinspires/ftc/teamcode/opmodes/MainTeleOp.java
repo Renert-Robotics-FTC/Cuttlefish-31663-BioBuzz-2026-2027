@@ -22,30 +22,7 @@ public final class MainTeleOp extends LinearOpMode {
         HaochenShooter shoot = new HaochenShooter(hardwareMap);
         try {
             // Disabled by default until the actual intake hardware is calibrated.
-            if (IntakeSettings.ENABLE_IN_TELEOP) {
-                intake = new IntakeSubsystem(hardwareMap);
-            }
-            // The flower arm can be enabled independently of the ball intake.
-            if (FlowerIntakeSubsystem.ENABLE_IN_TELEOP) {
-                flowerIntake = new FlowerIntakeSubsystem(hardwareMap);
-            }
-            // Show the driver what layout and controls this starting code expects.
-            telemetry.addLine("Assumes four mecanum wheels: FL, FR, BL, BR.");
-            telemetry.addLine("Left stick: move. Right stick X: turn.");
-            telemetry.addLine("Hold left bumper for slow mode.");
-            if (intake == null) {
-                telemetry.addLine("Intake disabled: review IntakeSettings.");
-            } else {
-                telemetry.addLine("Auto intake after START: stop at 4.");
-                telemetry.addLine("Gamepad 2: LB reverse, right trigger feed, hold X stop.");
-            }
-            if (flowerIntake == null) {
-                telemetry.addLine("Flower arm disabled: configure FlowerIntakeSubsystem.");
-            } else {
-                telemetry.addLine("Flower arm raises at START. Gamepad 2 A toggles down/up.");
-            }
-            telemetry.update();
-            // The robot stops here until START is pressed.
+
             waitForStart();
             boolean ShooterVelocityCoolDown = false;
 
@@ -61,10 +38,30 @@ public final class MainTeleOp extends LinearOpMode {
                 ShooterVelocityCoolDown = false;
             }
 
+            boolean ShouldShoot = false;
+            boolean ShootCoolDown = true;
+            boolean BlockCoolDown = true;
+            boolean ShouldBlock = false;
 
-            if(gamepad2.b){
+            if(gamepad2.b && ShootCoolDown){
+                ShouldShoot = !ShouldShoot;
+                ShootCoolDown = false;
+            }
+            if(!gamepad2.b){
+                ShootCoolDown = true;
+            }
+
+            if(gamepad2.right_bumper && BlockCoolDown){
+                ShouldBlock = !ShouldBlock;
+                BlockCoolDown = false;
+            }
+            if(!gamepad2.right_bumper){
+                BlockCoolDown = true;
+
+
+            if(ShouldShoot){
                 shoot.FlywheelVelocity(true);
-            }else if(gamepad2.y){
+            }else if(!ShouldShoot){
                 shoot.FlywheelVelocity(false);
             }
 
@@ -86,45 +83,16 @@ public final class MainTeleOp extends LinearOpMode {
                 // The left stick moves/strafe, the right stick rotates the robot.
                 drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                         deadband(gamepad1.right_stick_x), speed);
-                if (intake != null) {
-                    // Collect automatically whenever below capacity, after sensor warmup.
-                    // X or simultaneous feed/reverse stops, releasing returns to auto intake.
-                    //FEED only runs the shared motor, shooter speed/aim control comes later.
-                    boolean eject = gamepad2.left_bumper;
-                    boolean feed = gamepad2.right_trigger > 0.5;
-                    IntakeController.Request request;
-                    if (gamepad2.x || (feed && eject)) {
-                        request = IntakeController.Request.STOP;
-                    } else if (feed) {
-                        request = IntakeController.Request.FEED;
-                    } else if (eject) {
-                        request = IntakeController.Request.EJECT;
-                    } else {
-                        request = IntakeController.Request.COLLECT;
-                    }
-                    intake.update(request);
-                    intake.addTelemetry(telemetry);
-                } else {
-                    telemetry.addLine("Intake disabled: review IntakeSettings.");
-                }
-                if (flowerIntake != null) {
-                    flowerIntake.update(gamepad2.a);
-                    flowerIntake.addTelemetry(telemetry);
-                }
-                telemetry.addData("Drive power cap", "%.0f%%", speed * 100);
-                telemetry.update();
+
                 idle();
             }
-        } finally {
+        } }finally {
 
             try {
                 drive.stop();
             } finally {
-                // Stop the intake even if stopping the drivetrain raises an error.
-                if (intake != null) {
-                    intake.stop();
                 }
-            }
+
         }
     }
 
