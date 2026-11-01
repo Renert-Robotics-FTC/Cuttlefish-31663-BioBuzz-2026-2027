@@ -13,6 +13,7 @@ public class IntakeSubsystem {
         motor.setDirection(IntakeSettings.MOTOR_DIRECTION);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     public void start(boolean buttonPressed) {
