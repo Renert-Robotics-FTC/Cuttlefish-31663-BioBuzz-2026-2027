@@ -5,32 +5,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class IntakeSubsystem {
     private DcMotor motor;
-    private boolean running, wasPressed;
 
     public IntakeSubsystem(HardwareMap hardwareMap) {
-        motor = hardwareMap.get(DcMotor.class, IntakeSettings.MOTOR_NAME);
+        motor = hardwareMap.get(DcMotor.class, "intake");
         motor.setPower(0);
-        motor.setDirection(IntakeSettings.MOTOR_DIRECTION);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotor.Direction.FORWARD);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void start(boolean buttonPressed) {
-        stop();
-        wasPressed = buttonPressed;
-    }
-
-    public void update(boolean buttonPressed) {
-        if (buttonPressed && !wasPressed) {
-            running = !running;
-            motor.setPower(running ? IntakeSettings.INTAKE_POWER : 0);
-        }
-        wasPressed = buttonPressed;
-    }
-
-    public void stop() {
-        running = false;
-        motor.setPower(0);
+    public void update(boolean on) {
+        if (on) motor.setPower(1);
+        else motor.setPower(0);
     }
 }
