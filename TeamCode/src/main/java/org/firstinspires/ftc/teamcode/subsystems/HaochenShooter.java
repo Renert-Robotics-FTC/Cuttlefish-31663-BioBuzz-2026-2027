@@ -21,15 +21,18 @@ public class HaochenShooter {
     public DcMotorEx shooterMotor2;
     public Servo ServoBlocker;
     public HaochenShooter(HardwareMap hardwareMap){
-        shooterMotor1 = hardwareMap.get(DcMotorEx.class,"sm 1");//sm1 is shooter motor 1
-        shooterMotor2 = hardwareMap.get(DcMotorEx.class,"sm 2");//sm2 is shooter motor 2
-        ServoBlocker = hardwareMap.get(Servo.class,"sb");//servo blocker is sb
+        shooterMotor1 = hardwareMap.get(DcMotorEx.class,"shooter1");//sm1 is shooter motor 1
+        shooterMotor2 = hardwareMap.get(DcMotorEx.class,"shooter2");//sm2 is shooter motor 2
+        ServoBlocker = hardwareMap.get(Servo.class,"servoblocker");//servo blocker is sb
 
         shooterMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void Unblock(){
         ServoBlocker.setPosition(ConstantFile.ShooterConstants.Unblocked);
+    }
+    public double servoPosition() {
+        return ServoBlocker.getPosition();
     }
     public void Block(){
         ServoBlocker.setPosition(ConstantFile.ShooterConstants.Blocked);

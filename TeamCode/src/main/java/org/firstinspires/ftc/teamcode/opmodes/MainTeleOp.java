@@ -5,6 +5,8 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HaochenShooter;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp(name = "Cuttlefish Drive", group = "Cuttlefish")
 public class MainTeleOp extends LinearOpMode {
     @Override
@@ -18,6 +20,7 @@ public class MainTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
           boolean ShooterVelocityCoolDown = false;
+          telemetry.addData("Servo Blocker Position: ", shoot.servoPosition());
 
             if ((gamepad2.dpad_up) && (!ShooterVelocityCoolDown)){
                 shoot.VelocityIncrease();
@@ -64,15 +67,12 @@ public class MainTeleOp extends LinearOpMode {
             if (gamepad1.left_bumper) speed = DriveConstants.SLOW_POWER;
             drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                     deadband(gamepad1.right_stick_x), speed);
-
-            shooter.update(gamepad1.right_bumper);
             intake.update(gamepad1.right_bumper || gamepad1.left_bumper);
             idle();
         }
 
         drive.stop();
         intake.update(false);
-        shooter.stop();
     }
     private static double deadband(double value) {
         double magnitude = Math.abs(value);
