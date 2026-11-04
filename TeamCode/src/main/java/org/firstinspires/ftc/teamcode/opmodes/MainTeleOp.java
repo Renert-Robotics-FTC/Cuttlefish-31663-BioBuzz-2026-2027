@@ -7,21 +7,25 @@ import org.firstinspires.ftc.teamcode.subsystems.HaochenShooter;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name = "Cuttlefish Drive", group = "Cuttlefish")
+@TeleOp(name = "Cuttlefish Teleop", group = "Cuttlefish")
 public class MainTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         DriveSubsystem drive = new DriveSubsystem(hardwareMap);
         HaochenShooter shoot = new HaochenShooter(hardwareMap);
-                
-
         IntakeSubsystem intake = new IntakeSubsystem(hardwareMap);
+
+        boolean ShouldShoot = false;
+        boolean ShootCoolDown = true;
+        boolean BlockCoolDown = true;
+        boolean ShouldBlock = false;
+        boolean ShooterVelocityCoolDown = false;
+
         waitForStart();
 
         while (opModeIsActive()) {
-          boolean ShooterVelocityCoolDown = false;
-          telemetry.addData("Servo Blocker Position: ", shoot.servoPosition());
 
+            double speed = DriveConstants.DRIVE_POWER;
             if ((gamepad2.dpad_up) && (!ShooterVelocityCoolDown)){
                 shoot.VelocityIncrease();
                 ShooterVelocityCoolDown = true;
@@ -34,10 +38,7 @@ public class MainTeleOp extends LinearOpMode {
                 ShooterVelocityCoolDown = false;
             }
 
-            boolean ShouldShoot = false;
-            boolean ShootCoolDown = true;
-            boolean BlockCoolDown = true;
-            boolean ShouldBlock = false;
+
 
             if(gamepad2.b && ShootCoolDown){
                 ShouldShoot = !ShouldShoot;
@@ -61,13 +62,18 @@ public class MainTeleOp extends LinearOpMode {
             }else if(!ShouldShoot){
                 shoot.FlywheelVelocity(false);
             }
-          
-          
-            double speed = DriveConstants.DRIVE_POWER;
+
+            if (ShouldBlock) {
+                shoot.Block();
+            } else {
+                shoot.Unblock();
+            }
+            telemetry.addData("Servo Blocker Position: ", shoot.servoPosition());
             if (gamepad1.left_bumper) speed = DriveConstants.SLOW_POWER;
             drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                     deadband(gamepad1.right_stick_x), speed);
             intake.update(gamepad1.right_bumper || gamepad1.left_bumper);
+            telemetry.update();
             idle();
         }
 

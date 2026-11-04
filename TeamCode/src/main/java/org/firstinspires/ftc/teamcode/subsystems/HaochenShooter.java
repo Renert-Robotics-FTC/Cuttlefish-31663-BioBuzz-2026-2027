@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /* Goal:
     Shooter Branch that checks whether the user has pressed the button
     Final Speed Variable for Motor
-    PID:
+    PID:/
 
     Encoder and set velocity
     method to increase shooter velocity offset
@@ -17,16 +18,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class HaochenShooter {
     double offset = 0;
-    public DcMotorEx shooterMotor1;
-    public DcMotorEx shooterMotor2;
+    public DcMotor shooterMotor1;
+    public DcMotor shooterMotor2;
     public Servo ServoBlocker;
     public HaochenShooter(HardwareMap hardwareMap){
-        shooterMotor1 = hardwareMap.get(DcMotorEx.class,"shooter1");//sm1 is shooter motor 1
-        shooterMotor2 = hardwareMap.get(DcMotorEx.class,"shooter2");//sm2 is shooter motor 2
+        shooterMotor1 = hardwareMap.get(DcMotor.class,"shooter1");//sm1 is shooter motor 1
+        shooterMotor2 = hardwareMap.get(DcMotor.class,"shooter2");//sm2 is shooter motor 2
         ServoBlocker = hardwareMap.get(Servo.class,"servoblocker");//servo blocker is sb
+        shooterMotor1.setDirection(DcMotor.Direction.FORWARD);
+        shooterMotor2.setDirection(DcMotor.Direction.FORWARD);
 
-        shooterMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void Unblock(){
         ServoBlocker.setPosition(ConstantFile.ShooterConstants.Unblocked);
@@ -46,11 +49,11 @@ public class HaochenShooter {
     }
     public void FlywheelVelocity(boolean forward){
         if(forward){
-            shooterMotor1.setVelocity(ConstantFile.ShooterConstants.TargetVelocity + offset);
-            shooterMotor2.setVelocity(ConstantFile.ShooterConstants.TargetNegVelocity - offset);
-        } else if(forward = false){
-            shooterMotor1.setVelocity(ConstantFile.ShooterConstants.Stop);
-            shooterMotor2.setVelocity(ConstantFile.ShooterConstants.Stop);
+            shooterMotor1.setPower(ConstantFile.ShooterConstants.TargetNegVelocity + offset);
+            shooterMotor2.setPower(ConstantFile.ShooterConstants.TargetVelocity - offset);
+        } else if(!forward){
+            shooterMotor1.setPower(ConstantFile.ShooterConstants.Stop);
+            shooterMotor2.setPower(ConstantFile.ShooterConstants.Stop);
         }
     }
 
