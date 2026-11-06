@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.ConstantFile;
 import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
@@ -42,37 +43,63 @@ public class Auto extends LinearOpMode {
         motor.setDirection(DcMotor.Direction.FORWARD);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ElapsedTime runtime = new ElapsedTime(3000);
+        runtime.reset();
 
 
         waitForStart();
-        if(isStopRequested()){
-            return;
+        while (opModeIsActive()){
+            if (runtime.seconds()>6.25) {
+                fl.setPower(0);
+                fr.setPower(0);
+                bl.setPower(0);
+                br.setPower(0);
+
+            }else if(runtime.seconds() > 5) {
+                shooterMotor1.setPower(0);
+                shooterMotor2.setVelocity(0);
+                motor.setPower(0);
+
+                fl.setPower(0.25);
+                fr.setPower(0.25);
+                bl.setPower(0.25);
+                br.setPower(0.25);
+            } else if(runtime.seconds() > 2){
+                shooterMotor1.setPower(0.8);
+                shooterMotor2.setVelocity(900);
+                motor.setPower(1);
+            }else {
+                shooterMotor1.setPower(0.8);
+                shooterMotor2.setVelocity(900);
+            }
+
+
+            motor.setPower(1);
+
+            sleep(4000);
+
+            shooterMotor1.setPower(0);
+            shooterMotor2.setPower(0);
+            motor.setPower(0);
+
+            fl.setPower(0.25);
+            fr.setPower(0.25);
+            bl.setPower(0.25);
+            br.setPower(0.25);
+
+            sleep(1250);
+
+            fl.setPower(0);
+            fr.setPower(0);
+            bl.setPower(0);
+            br.setPower(0);
+
+            if(isStopRequested()){
+                return;
+            }
+            idle();
         }
 
-        shooterMotor1.setPower(0.8);
-        shooterMotor2.setVelocity(900);
-
-        sleep(3000);
-
-        motor.setPower(1);
-
-        sleep(4000);
-
-        shooterMotor1.setPower(0);
-        shooterMotor2.setPower(0);
-        motor.setPower(0);
-
-        fl.setPower(0.25);
-        fr.setPower(0.25);
-        bl.setPower(0.25);
-        br.setPower(0.25);
-
-        sleep(1250);
-
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
 
 
     }
