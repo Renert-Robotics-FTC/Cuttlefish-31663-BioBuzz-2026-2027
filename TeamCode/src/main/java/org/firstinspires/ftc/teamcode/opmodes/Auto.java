@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -25,15 +26,15 @@ public class Auto extends LinearOpMode {
         br.setDirection(DriveConstants.BACK_RIGHT_DIRECTION);
 
         DcMotor shooterMotor1;
-        DcMotor shooterMotor2;
+        DcMotorEx shooterMotor2;
 
         shooterMotor1 = hardwareMap.get(DcMotor.class,"shooter1");//sm1 is shooter motor 1
-        shooterMotor2 = hardwareMap.get(DcMotor.class,"shooter2");//sm2 is shooter motor 2
+        shooterMotor2 = hardwareMap.get(DcMotorEx.class,"shooter2");//sm2 is shooter motor 2
         shooterMotor1.setDirection(DcMotor.Direction.FORWARD);
-        shooterMotor2.setDirection(DcMotor.Direction.FORWARD);
+        shooterMotor2.setDirection(DcMotorEx.Direction.FORWARD);
 
-        shooterMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shooterMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooterMotor1.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         DcMotor motor;
         motor = hardwareMap.get(DcMotor.class, "intake");
@@ -48,11 +49,14 @@ public class Auto extends LinearOpMode {
             return;
         }
 
-        motor.setPower(1);
-        shooterMotor1.setPower(ConstantFile.ShooterConstants.TargetNegVelocity);
-        shooterMotor2.setPower(ConstantFile.ShooterConstants.TargetVelocity);
+        shooterMotor1.setPower(0.8);
+        shooterMotor2.setVelocity(900);
 
-        sleep(5000);
+        sleep(3000);
+
+        motor.setPower(1);
+
+        sleep(4000);
 
         shooterMotor1.setPower(0);
         shooterMotor2.setPower(0);

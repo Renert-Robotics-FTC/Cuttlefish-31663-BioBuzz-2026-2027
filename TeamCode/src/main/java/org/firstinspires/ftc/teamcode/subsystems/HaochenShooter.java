@@ -63,13 +63,17 @@ public class HaochenShooter {
     public void VelocityDecrease(){
         offset = offset + ConstantFile.ShooterConstants.Decrease;
     }
-
+    public double shooterVelocity() {
+        return shooterMotor2.getVelocity();
+    }
     public boolean check(){
         if(shooterMotor2.getVelocity() < ConstantFile.ShooterConstants.TargetVelocity - offset){
             return true;
+
         }else{
             return false;
         }
+
     }
     public void FlywheelVelocity(boolean forward){
         if(forward){
