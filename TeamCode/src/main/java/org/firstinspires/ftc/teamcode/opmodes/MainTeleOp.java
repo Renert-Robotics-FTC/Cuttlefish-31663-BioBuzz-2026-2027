@@ -69,6 +69,7 @@ public class MainTeleOp extends LinearOpMode {
                 shoot.Unblock();
             }
             telemetry.addData("Servo Blocker Position: ", shoot.servoPosition());
+            telemetry.addData("shooter velcoity:", shoot.shooterMotor2.getVelocity());
             if (gamepad1.left_bumper) speed = DriveConstants.SLOW_POWER;
             drive.drive(deadband(-gamepad1.left_stick_y), deadband(gamepad1.left_stick_x),
                     deadband(gamepad1.right_stick_x), speed);
