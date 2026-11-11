@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class DriveConstants {
+    public static String PINPOINT_NAME = "pinpoint";
     public static String FRONT_LEFT_NAME = "FL";
     public static String FRONT_RIGHT_NAME = "FR";
     public static String BACK_LEFT_NAME = "BL";
