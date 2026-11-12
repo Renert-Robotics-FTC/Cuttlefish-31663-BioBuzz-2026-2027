@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.MM;
 
 import static java.lang.Double.min;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,7 +17,13 @@ public class HaochenAutoAlign {
     public DistanceUnit distanceUnit;
     public HaochenAutoAlign(HardwareMap hardwareMap){
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
+        pinpoint.setEncoderResolution(
+                GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD
+        );
+        pinpoint.setOffsets(15,-130, DistanceUnit.MM);
     }
+
+
     public double WheelTurn(){
         pinpoint.update();
         Pose2D currentPose = pinpoint.getPosition();
@@ -28,11 +36,18 @@ public class HaochenAutoAlign {
         double CurrentAngle = currentPose.getHeading(AngleUnit.DEGREES);
         double TurnNeeded = CurrentAngle - AngleToHive;
 
+        if(TurnNeeded>180){
+            TurnNeeded-=360;
+        }else if(TurnNeeded<-180){
+            TurnNeeded+=360;
+        }
+
+        if(abs(TurnNeeded)<=2){
+            return 0.0;
+        }
+
         double WheelPower = TurnNeeded*ConstantFile.AlignConstants.PowerConstant;
-        return min(WheelPower,1);
-
-
-
+        return max(min(WheelPower,1),-1);
         //take coordinate of the robot currently
         //calcuate the direct distance to the hive
         //find current angle the robot is facing, and correct it to the correct angle
