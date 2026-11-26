@@ -3,18 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.subsystems.ConstantFile;
 import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
 import org.firstinspires.ftc.teamcode.subsystems.HaochenShooter;
 
 @Autonomous(name = "Cuttlefish Auto", group = "Cuttlefish")
-public class Auto extends LinearOpMode {
+public class auto_1tip_pushpark extends LinearOpMode {
     @Override
     public void runOpMode(){
         HaochenShooter shoot = new HaochenShooter(hardwareMap);
@@ -35,25 +30,37 @@ public class Auto extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ElapsedTime runtime = new ElapsedTime(3000);
-        runtime.reset();
 
 
         waitForStart();
+        runtime.reset();
         while (opModeIsActive()){
-            if (runtime.seconds()>8.25) {
+            if (runtime.seconds()>14) {
                 fl.setPower(0);
                 fr.setPower(0);
                 bl.setPower(0);
                 br.setPower(0);
+            }
+            else if (runtime.seconds()>10) {
+                fl.setPower(0.25);
+                fr.setPower(0.25);
+                bl.setPower(0.25);
+                br.setPower(0.25);
+            }
+            else if (runtime.seconds()>8.25) {
+                fl.setPower(0.25);
+                fr.setPower(0.25);
+                bl.setPower(0.25);
+                br.setPower(0.25);
 
             }else if(runtime.seconds() > 7) {
                 shoot.FlywheelVelocity(false);
                 motor.setPower(0);
 
-                fl.setPower(0.25);
+                fl.setPower(0);
                 fr.setPower(0.25);
                 bl.setPower(0.25);
-                br.setPower(0.25);
+                br.setPower(0);
             } else if(runtime.seconds() > 4){
                 shoot.FlywheelVelocity(true);
                 motor.setPower(1);

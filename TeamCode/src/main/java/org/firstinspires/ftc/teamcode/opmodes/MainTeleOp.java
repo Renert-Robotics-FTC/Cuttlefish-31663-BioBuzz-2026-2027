@@ -49,16 +49,11 @@ public class MainTeleOp extends LinearOpMode {
             } else {
                 shoot.Unblock();
             }
-            double speed = DriveConstants.DRIVE_POWER;
-            if (gamepad1.left_bumper) {
-                speed = DriveConstants.SLOW_POWER;
-            }
-
             drive.drive(
                     deadband(-gamepad1.left_stick_y),
                     deadband(gamepad1.left_stick_x),
                     deadband(gamepad1.right_stick_x),
-                    speed
+                    DriveConstants.DRIVE_POWER
             );
             intake.update(gamepad1.right_bumper || gamepad1.left_bumper);
 
