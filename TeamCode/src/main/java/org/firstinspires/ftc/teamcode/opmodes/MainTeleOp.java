@@ -55,7 +55,8 @@ public class MainTeleOp extends LinearOpMode {
                     deadband(gamepad1.right_stick_x),
                     DriveConstants.DRIVE_POWER
             );
-            intake.update(gamepad1.right_bumper || gamepad1.left_bumper);
+
+            intake.update(gamepad1.left_bumper, gamepad1.right_trigger_pressed);
 
             telemetry.addData("Blocker position", shoot.servoPosition());
             telemetry.addData("Shooter velocity", shoot.shooterVelocity());
@@ -64,7 +65,7 @@ public class MainTeleOp extends LinearOpMode {
         }
 
         drive.stop();
-        intake.update(false);
+        intake.update(false,false);
         shoot.FlywheelVelocity(false);
         shoot.Block();
     }

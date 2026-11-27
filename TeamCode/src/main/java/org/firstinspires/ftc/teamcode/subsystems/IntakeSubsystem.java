@@ -14,8 +14,15 @@ public class IntakeSubsystem {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void update(boolean on) {
-        if (on) motor.setPower(1);
-        else motor.setPower(0);
+    public void update(boolean forward,boolean reverse) {
+        if (forward) motor.setPower(1);
+        else if (reverse) {
+        motor.setPower(-1);
+        }else {
+        motor.setPower(0);
+        }
+
+        }
     }
-}
+
+
