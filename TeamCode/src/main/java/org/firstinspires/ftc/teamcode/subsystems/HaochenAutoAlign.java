@@ -21,6 +21,10 @@ public class HaochenAutoAlign {
                 GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD
         );
         pinpoint.setOffsets(15,-130, DistanceUnit.MM);
+        pinpoint.setEncoderDirections(
+                GoBildaPinpointDriver.EncoderDirection.REVERSED,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD
+        );
     }
 
 
@@ -36,21 +40,27 @@ public class HaochenAutoAlign {
         double CurrentAngle = currentPose.getHeading(AngleUnit.DEGREES);
         double TurnNeeded = CurrentAngle - AngleToHive;
 
-        if(TurnNeeded>180){
-            TurnNeeded-=360;
-        }else if(TurnNeeded<-180){
-            TurnNeeded+=360;
-        }
+        TurnNeeded = AngleUnit.normalizeDegrees(TurnNeeded);
+
 
         if(abs(TurnNeeded)<=2){
             return 0.0;
         }
 
         double WheelPower = TurnNeeded*ConstantFile.AlignConstants.PowerConstant;
-        return max(min(WheelPower,1),-1);
+        WheelPower =
+                TurnNeeded * ConstantFile.AlignConstants.PowerConstant;
+
+    // Initial testing limit; adjust after testing.
+        double maxTurnPower = 0.30;
+
+        return max(min(WheelPower, maxTurnPower), -maxTurnPower);
+
+
         //take coordinate of the robot currently
-        //calcuate the direct distance to the hive
+        //calculate the direct distance to the hive
         //find current angle the robot is facing, and correct it to the correct angle
     }
 
+    
 }

@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.DriveConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HaochenAutoAlign;
 import org.firstinspires.ftc.teamcode.subsystems.HaochenShooter;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -14,18 +15,27 @@ public class MainTeleOp extends LinearOpMode {
         DriveSubsystem drive = new DriveSubsystem(hardwareMap);
         HaochenShooter shoot = new HaochenShooter(hardwareMap);
         IntakeSubsystem intake = new IntakeSubsystem(hardwareMap);
+        HaochenAutoAlign align = new HaochenAutoAlign(hardwareMap);
 
         boolean ShouldShoot = false;
         boolean ShootCoolDown = true;
         boolean BlockCoolDown = true;
         boolean ShouldBlock = false;
         boolean ShooterVelocityCoolDown = false;
+        boolean ShouldAlign = false;
+        boolean AlignCoolDown = true;
+
 
         waitForStart();
 
         while (opModeIsActive()) {
 
             double speed = DriveConstants.DRIVE_POWER;
+
+            if(gamepad1.b && AlignCoolDown){
+                ShouldAlign = true;
+                AlignCoolDown = false;
+            }
             if ((gamepad2.dpad_up) && (!ShooterVelocityCoolDown)){
                 shoot.VelocityIncrease();
                 ShooterVelocityCoolDown = true;
