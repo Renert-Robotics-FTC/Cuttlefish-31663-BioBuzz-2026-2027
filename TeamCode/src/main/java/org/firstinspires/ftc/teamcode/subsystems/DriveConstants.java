@@ -12,7 +12,7 @@ public class DriveConstants {
     public static DcMotorSimple.Direction BACK_LEFT_DIRECTION = DcMotorSimple.Direction.REVERSE;
     public static DcMotorSimple.Direction BACK_RIGHT_DIRECTION = DcMotorSimple.Direction.FORWARD;
 
-    public static double DRIVE_POWER = 0.8;
+    public static double DRIVE_POWER = 0.95;
     public static double STICK_DEADBAND = 0.05;
 }
 //
