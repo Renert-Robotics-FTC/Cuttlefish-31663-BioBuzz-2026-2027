@@ -35,11 +35,17 @@ public class auto_1tip_park extends LinearOpMode {
         waitForStart();
         runtime.reset();
         while (opModeIsActive()){
-            if(runtime.seconds() > 13.5){
+            if(runtime.seconds() > 14){
                 fl.setPower(0);
                 fr.setPower(0);
                 bl.setPower(0);
                 br.setPower(0);
+            }
+            else if(runtime.seconds() > 13.5){
+                fl.setPower(0.5);
+                fr.setPower(-0.5);
+                bl.setPower(0.5);
+                br.setPower(-0.5);
             }
             else if (runtime.seconds()>12) {
                 fl.setPower(0.5);
