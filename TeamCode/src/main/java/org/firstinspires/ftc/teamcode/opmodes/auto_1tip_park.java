@@ -35,32 +35,33 @@ public class auto_1tip_park extends LinearOpMode {
         waitForStart();
         runtime.reset();
         while (opModeIsActive()){
-            if (runtime.seconds()>12) {
+            if(runtime.seconds() > 13.5){
                 fl.setPower(0);
                 fr.setPower(0);
                 bl.setPower(0);
                 br.setPower(0);
             }
-            else if (runtime.seconds()>10) {
-                fl.setPower(0.75);
-                fr.setPower(0.75);
-                bl.setPower(0.75);
-                br.setPower(0.75);
+            else if (runtime.seconds()>12) {
+                fl.setPower(0.5);
+                fr.setPower(.5);
+                bl.setPower(.5);
+                br.setPower(.5);
             }
+
             else if (runtime.seconds()>8.25) {
-                fl.setPower(0);
+                fl.setPower(-.05);
                 fr.setPower(0.75);
                 bl.setPower(0.75);
-                br.setPower(0);
+                br.setPower(-0.05);
 
             }else if(runtime.seconds() > 7) {
                 shoot.FlywheelVelocity(false);
                 motor.setPower(0);
 
-                fl.setPower(-0.75);
+                fl.setPower(-0.05);
                 fr.setPower(0.75);
-                bl.setPower(-0.75);
-                br.setPower(0.75);
+                bl.setPower(0.75);
+                br.setPower(-0.05);
             } else if(runtime.seconds() > 4){
                 shoot.FlywheelVelocity(true);
                 motor.setPower(1);
